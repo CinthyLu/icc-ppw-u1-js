@@ -26,8 +26,8 @@
 
 ## 3. icc-est-u4-complejidad
 ![Aplicación desplegada](assets/02-captura-demo.png)
-**Fecha:** 15/03/26
-**Descripción:** Ejemplos de bucles listados
+**Fecha:** 16/03/26
+**Descripción:** Ejemplos de bucles listados catalina 
 
 ---
 
