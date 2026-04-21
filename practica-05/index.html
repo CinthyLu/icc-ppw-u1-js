@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Práctica 5 - Programación Asíncrona con JavaScript">
+    <title>Práctica 5 - Programación Asíncrona</title>
+    <link rel="stylesheet" href="css/styles.css">
+    
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="brand">
+                <span>AsyncJS</span>
+            </div>
+            <button class="btn-toggle-dark" id="toggleDark" title="Alternar modo oscuro">
+          <span class="icon-sun">☼</span>
+          <span class="icon-moon">☽</span>
+                <span class="toggle-label">Dark</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Título principal -->
+        <h1 class="page-title">Programación Asíncrona</h1>
+        <p class="page-subtitle">Práctica 5 - Promesas, async/await y Event Loop</p>
+
+        <!-- Sección 1: Carga de Datos -->
+        <section class="card">
+            <h2 class="card-title">1. Carga de Datos</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--secondary);">
+                Carga múltiples recursos de forma paralela usando <code>Promise.all()</code>
+            </p>
+            <div class="form-group">
+                <button class="btn-primary" id="btnCargar">
+                
+                    <span>Cargar Datos</span>
+                </button>
+            </div>
+            <div id="spinner" class="zona-click" style="display: none;"> Cargando...</div>
+            <ul id="datos" class="task-list" style="display: none;"></ul>
+            <div id="errorMsg" class="error-msg" style="display: none;"></div>
+        </section>
+
+        <!-- Sección 2: Secuencial vs Paralelo -->
+        <section class="card">
+            <h2 class="card-title">2. Secuencial vs Paralelo</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--secondary);">
+                Compara el tiempo de ejecución entre cargar datos uno a uno vs todos a la vez
+            </p>
+            <div class="form-group" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button class="btn-primary btn-sm" id="btnSecuencial">
+                   
+                    <span>Secuencial</span>
+                </button>
+                <button class="btn-primary btn-sm" id="btnParalelo">
+                    
+                    <span>Paralelo</span>
+                </button>
+            </div>
+            <div id="resultados" class="resultado"></div>
+        </section>
+
+        <!-- Sección 3: Temporizador Interactivo -->
+        <section class="card">
+            <h2 class="card-title">3. Temporizador Interactivo</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--secondary);">
+                Temporizador con inicio, pausa y reinicio con <code>setInterval()</code>
+            </p>
+            <div class="form-group">
+                <label for="tiempo-input">Tiempo (segundos):</label>
+                <input type="number" id="tiempo-input" value="30" min="1" max="3600">
+            </div>
+            <div class="zona-click" id="display">00:30</div>
+            <div class="form-group" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button class="btn-primary btn-sm" id="btn-iniciar">
+                 
+                    <span>Iniciar</span>
+                </button>
+                <button class="btn-primary btn-sm" id="btn-detener">
+                   
+                    <span>Pausar</span>
+                </button>
+                <button class="btn-primary btn-sm" id="btn-reiniciar">
+                    
+                    <span>Reiniciar</span>
+                </button>
+            </div>
+            <div class="form-group">
+                <div id="barra-progreso">
+                    <div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 4: Log de Operaciones -->
+        <section class="card">
+            <h2 class="card-title">Log de Operaciones</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--secondary);">
+                Registro de todas las operaciones asíncronas ejecutadas
+            </p>
+            <div id="log" class="task-list" style="max-height: 350px; overflow-y: auto;"></div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>IEEE UPS - Práctica de Asincronía 2026</p>
+        <p class="shortcut-hint">Presiona <kbd>F12</kbd> para ver logs detallados en la consola</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

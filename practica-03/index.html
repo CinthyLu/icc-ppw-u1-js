@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Práctica 3 - Eventos en JavaScript</title>
+    <meta name="description" content="Práctica 3: Eventos en JavaScript - Formulario interactivo con validación, modo oscuro y delegación de eventos." />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-inner">
+        <div class="brand">
+          <span class="brand-text">Eventos JS</span>
+        </div>
+        <button id="modo" class="btn-toggle-dark" aria-label="Cambiar modo oscuro/claro">
+          <span class="icon-sun">☼</span>
+          <span class="icon-moon">☽</span>
+          <span class="toggle-label">Modo oscuro</span>
+
+          
+        </button>
+      </div>
+    </header>
+
+    <main class="main-container">
+      <h1 class="page-title">Formulario de Contacto</h1>
+      <p class="page-subtitle">Práctica 3 — Eventos en JavaScript</p>
+
+      <section class="card" id="seccion-formulario">
+        <h2 class="card-title">Envíanos un mensaje</h2>
+
+        <form id="formulario" novalidate>
+          <div class="form-group">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" placeholder="Tu nombre" autocomplete="name" />
+            <p class="error-msg" id="error-nombre"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" placeholder="tu@email.com" autocomplete="email" />
+            <p class="error-msg" id="error-email"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="asunto">Asunto</label>
+            <select id="asunto">
+              <option value="">Seleccione un asunto</option>
+              <option value="consulta">Consulta general</option>
+              <option value="soporte">Soporte técnico</option>
+              <option value="otro">Otro</option>
+            </select>
+            <p class="error-msg" id="error-asunto"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" rows="4" maxlength="300" placeholder="Escribe tu mensaje..."></textarea>
+            <div class="char-row">
+              <span id="contador">0</span>/300 caracteres
+            </div>
+            <p class="error-msg" id="error-mensaje"></p>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" id="btn-enviar" class="btn-primary">
+              <span>Enviar mensaje</span>
+              <span class="btn-icon">→</span>
+            </button>
+            <small class="shortcut-hint">También puedes presionar <kbd>Ctrl</kbd> + <kbd>Enter</kbd></small>
+          </div>
+        </form>
+
+        <div id="resultado" class="resultado"></div>
+      </section>
+
+      <section class="card" id="seccion-clicks">
+        <h2 class="card-title">Contador de Clics</h2>
+        <div id="zona" class="zona-click" role="button" tabindex="0" aria-label="Zona de clics">
+          Haz clic aquí
+        </div>
+        <p class="click-label">Clics registrados: <strong id="clicks">0</strong></p>
+      </section>
+
+      <section class="card" id="seccion-tareas">
+        <h2 class="card-title">Lista de Tareas</h2>
+        <p class="card-desc">Delegación de eventos — un solo <code>addEventListener</code> en el contenedor padre.</p>
+
+        <div class="task-input-row">
+          <input type="text" id="nueva" placeholder="Nueva tarea..." />
+          <button id="agregar" class="btn-primary btn-sm">Agregar</button>
+        </div>
+
+        <ul id="tareas" class="task-list"></ul>
+        <p id="pendientes-count" class="pendientes-count"></p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Práctica 3 — Eventos en JavaScript · Cinthya Ramon · PPW 2026</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

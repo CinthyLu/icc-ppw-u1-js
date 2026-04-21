@@ -6,9 +6,9 @@
 }
 
 :root {
-  /* Light mode base (mejorado) */
-  --primary: #38247c;
-  --primary-dark: #2a1a5e;
+  /* Light mode base */ 
+  --primary: #126528;
+  --primary-dark: #3be563;
   --secondary: #555;
   --error: #e74c3c;
   --success: #27ae60;
@@ -20,7 +20,7 @@
   --glow-accent: 0 0 8px rgba(0, 243, 255, 0.4);
 }
 
-/* Dark mode cyberpunk fusion */
+
 body.dark {
   --text: #e0e0e0;
   --secondary: #8892b0;
@@ -39,7 +39,7 @@ body {
   transition: all 0.3s ease;
 }
 
-/* Header cyberpunk */
+
 .header {
   background: rgba(21, 21, 34, 0.95);
   backdrop-filter: blur(10px);
@@ -77,7 +77,7 @@ body {
   filter: drop-shadow(0 0 5px var(--neon-accent));
 }
 
-/* Botón Toggle mejorado */
+
 .btn-toggle-dark {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -113,7 +113,7 @@ body {
   }
 }
 
-/* Main container */
+
 .main-container {
   max-width: 1000px;
   margin: 2rem auto;
@@ -137,7 +137,7 @@ body {
   font-size: 1.1rem;
 }
 
-/* Cards cyberpunk fusion - MEJORADAS */
+
 .card {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -181,7 +181,7 @@ body {
   font-size: 0.95rem;
 }
 
-/* Form improvements */
+
 .form-group {
   margin-bottom: 1.5rem;
   position: relative;
@@ -231,7 +231,7 @@ textarea {
   min-height: 100px;
 }
 
-/* Error messages */
+
 .error-msg {
   color: var(--error);
   font-size: 0.85rem;
@@ -247,7 +247,7 @@ textarea {
   margin-top: 0.5rem;
 }
 
-/* Buttons cyberpunk */
+
 .btn-primary {
   padding: 0.75rem 1.5rem;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -297,7 +297,7 @@ textarea {
   font-size: 0.9rem;
 }
 
-/* Zona click cyberpunk */
+
 .zona-click {
   background: linear-gradient(135deg, var(--primary), var(--neon-accent));
   color: white;
@@ -343,7 +343,7 @@ textarea {
   transform: scale(0.98);
 }
 
-/* Task list cyberpunk */
+
 .task-list li {
   background: var(--card-bg);
   padding: 1rem;
@@ -386,18 +386,19 @@ textarea {
   box-shadow: var(--glow-accent);
 }
 
-/* Footer */
+
 .footer {
-  background: rgba(21, 21, 34, 0.95);
+  background: rgba(97, 197, 210, 0.95);
   backdrop-filter: blur(10px);
   color: var(--text);
   text-align: center;
+
   padding: 2rem;
   margin-top: 3rem;
   border-top: 1px solid var(--border);
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .page-title {
     font-size: 2rem;

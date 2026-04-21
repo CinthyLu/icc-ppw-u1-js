@@ -1,13 +1,13 @@
 'use strict';
 
-// Información del estudiante
+
 const estudiante = {
   nombre: 'Cinthya Catalina Ramon Morocho',
-  carrera: 'Ingeniería en Ciencias de la Computación',
+  carrera: 'Ingeniería en Computación',
   semestre: 5
 };
 
-// Lista de elementos (elegir un dominio: tareas, productos, películas, etc.)
+
 const elementos = [
   { id: 1, titulo: 'Proyecto Web', descripcion: 'Terminar práctica JS', categoria: 'Estudio', prioridad: 'Alta', activo: true },
   { id: 2, titulo: 'Comprar comida', descripcion: 'Ir al supermercado', categoria: 'Personal', prioridad: 'Media', activo: true },
@@ -58,9 +58,7 @@ function renderizarLista(datos) {
     const estado = document.createElement('span');
     estado.textContent = el.activo ? 'Activo' : 'Inactivo';
     estado.classList.add('badge');
-    estado.classList.add(
-      el.activo ? 'estado-activo' : 'estado-inactivo'
-    );
+    estado.classList.add(el.activo ? 'estado-activo' : 'estado-inactivo');
 
 
     const btnEliminar = document.createElement('button');
@@ -73,7 +71,8 @@ function renderizarLista(datos) {
 
     card.appendChild(titulo);
     card.appendChild(descripcion);
-    // CONTENEDOR DE BADGES
+
+   
     const badges = document.createElement('div');
     badges.classList.add('badges');
 
@@ -81,12 +80,12 @@ function renderizarLista(datos) {
     badges.appendChild(prioridad);
     badges.appendChild(estado);
 
-    // ACCIONES
+  
     const acciones = document.createElement('div');
     acciones.classList.add('card-actions');
     acciones.appendChild(btnEliminar);
 
-    // ENSAMBLE FINAL
+   
     card.appendChild(titulo);
     card.appendChild(descripcion);
     card.appendChild(badges);
@@ -135,3 +134,8 @@ function inicializarFiltros() {
     });
   });
 }
+
+
+mostrarInfoEstudiante();
+renderizarLista(elementos);
+inicializarFiltros();
