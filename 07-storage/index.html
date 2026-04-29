@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Práctica 7 - Web Storage y Persistencia con JavaScript">
+    <title>Práctica 7 - Web Storage</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="brand">
+                <span class="brand-icon">💾</span>
+                <span>StorageJS</span>
+            </div>
+            <button class="btn-toggle-dark" id="toggleDark" title="Alternar modo oscuro">
+                <span class="icon-sun">☼</span>
+                <span class="icon-moon">☽</span>
+                <span class="toggle-label">Dark</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <h1 class="page-title">Web Storage & Persistencia</h1>
+        <p class="page-subtitle">Práctica 7 - localStorage, sessionStorage y CRUD persistente</p>
+
+        <!-- Sección 1: CRUD de Tareas -->
+        <section class="card">
+            <h2 class="card-title">1. Lista de Tareas Persistente (CRUD)</h2>
+            <p style="margin-bottom:1.5rem;color:var(--secondary);">Los datos se guardan en <code>localStorage</code> y sobreviven al recargar la página.</p>
+
+            <div class="form-group" style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:flex-end;">
+                <div style="flex:1;min-width:200px;">
+                    <label for="input-tarea">Nueva tarea:</label>
+                    <input type="text" id="input-tarea" placeholder="Escribe una tarea..." maxlength="120"
+                        style="width:100%;padding:0.75rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:var(--card-bg);color:var(--text);transition:all 0.3s;">
+                </div>
+                <button class="btn-primary btn-sm" id="btn-agregar">
+                    ➕ <span>Agregar</span>
+                </button>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filter-bar" id="filtros">
+                <button class="filter-btn active" data-filtro="todas">Todas</button>
+                <button class="filter-btn" data-filtro="pendientes">Pendientes</button>
+                <button class="filter-btn" data-filtro="completadas">Completadas</button>
+            </div>
+
+            <!-- Estadísticas -->
+            <div id="stats-tareas" class="stats-bar"></div>
+
+            <!-- Lista -->
+            <ul id="lista-tareas" class="task-list"></ul>
+            <div id="empty-msg" class="empty-state" style="display:none;">
+                <span>📋</span> No hay tareas. ¡Agrega una arriba!
+            </div>
+
+            <!-- Acciones globales -->
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1rem;">
+                <button class="btn-primary btn-sm btn-danger" id="btn-limpiar">🗑️ Limpiar todo</button>
+                <button class="btn-primary btn-sm btn-success" id="btn-exportar">⬇️ Exportar JSON</button>
+                <label class="btn-primary btn-sm" style="cursor:pointer;" title="Importar JSON">
+                    ⬆️ Importar JSON
+                    <input type="file" id="input-importar" accept=".json" style="display:none;">
+                </label>
+            </div>
+        </section>
+
+        <!-- Sección 2: Selector de Tema Persistente -->
+        <section class="card">
+            <h2 class="card-title">2. Selector de Tema Persistente</h2>
+            <p style="margin-bottom:1.5rem;color:var(--secondary);">El tema elegido se guarda en <code>localStorage</code> y se aplica al recargar.</p>
+            <div class="theme-grid" id="theme-grid">
+                <button class="theme-btn" data-tema="default" style="--t-primary:#38247c;--t-bg:#f8fafc;--t-card:#fff;">
+                    <span class="theme-preview" style="background:linear-gradient(135deg,#38247c,#7b5ea7);"></span>
+                    <span>Clásico</span>
+                </button>
+                <button class="theme-btn" data-tema="dark" style="--t-primary:#00f3ff;--t-bg:#0b0b12;--t-card:#151522;">
+                    <span class="theme-preview" style="background:linear-gradient(135deg,#0b0b12,#00f3ff);"></span>
+                    <span>Cyberpunk</span>
+                </button>
+                <button class="theme-btn" data-tema="ocean" style="--t-primary:#0077b6;--t-bg:#e8f4f8;--t-card:#fff;">
+                    <span class="theme-preview" style="background:linear-gradient(135deg,#0077b6,#00b4d8);"></span>
+                    <span>Océano</span>
+                </button>
+                <button class="theme-btn" data-tema="forest" style="--t-primary:#2d6a4f;--t-bg:#f0f7f4;--t-card:#fff;">
+                    <span class="theme-preview" style="background:linear-gradient(135deg,#2d6a4f,#52b788);"></span>
+                    <span>Bosque</span>
+                </button>
+                <button class="theme-btn" data-tema="sunset" style="--t-primary:#c1121f;--t-bg:#fff8f0;--t-card:#fff;">
+                    <span class="theme-preview" style="background:linear-gradient(135deg,#c1121f,#e9c46a);"></span>
+                    <span>Atardecer</span>
+                </button>
+            </div>
+            <div id="tema-activo-msg" class="resultado show" style="margin-top:1rem;">
+                <strong>Tema activo: <span id="tema-nombre">Clásico</span></strong>
+                Guardado en localStorage. Recarga la página para verificar la persistencia.
+            </div>
+        </section>
+
+        <!-- Sección 3: sessionStorage - Formulario con autoguardado -->
+        <section class="card">
+            <h2 class="card-title">3. sessionStorage — Formulario con Autoguardado</h2>
+            <p style="margin-bottom:1.5rem;color:var(--secondary);">El progreso se guarda en <code>sessionStorage</code> y se restaura si recargas la página (no entre pestañas).</p>
+
+            <div class="session-indicator" id="session-indicator" style="display:none;">
+                <span>🔄</span> Borrador restaurado desde sessionStorage
+                <button id="btn-descartar-draft" style="margin-left:1rem;background:none;border:1px solid var(--error);color:var(--error);padding:0.2rem 0.6rem;border-radius:4px;cursor:pointer;font-size:0.85rem;">Descartar</button>
+            </div>
+
+            <form id="form-contacto" novalidate>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+                    <div class="form-group" style="margin:0;">
+                        <label for="c-nombre">Nombre</label>
+                        <input type="text" id="c-nombre" name="nombre" placeholder="Tu nombre">
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label for="c-email">Email</label>
+                        <input type="email" id="c-email" name="email" placeholder="tu@email.com">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="c-mensaje">Mensaje</label>
+                    <textarea id="c-mensaje" name="mensaje" rows="3"
+                        style="width:100%;padding:0.75rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:var(--card-bg);color:var(--text);resize:vertical;transition:all 0.3s;"
+                        placeholder="Escribe tu mensaje..."></textarea>
+                </div>
+                <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+                    <button type="submit" class="btn-primary btn-sm">📤 Enviar</button>
+                    <button type="button" class="btn-primary btn-sm btn-danger" id="btn-reset-form">🔄 Limpiar</button>
+                </div>
+            </form>
+            <div id="form-resultado" class="resultado"></div>
+        </section>
+
+        <!-- Sección 4: Info de Storage -->
+        <section class="card">
+            <h2 class="card-title">4. Inspector de Storage</h2>
+            <p style="margin-bottom:1.5rem;color:var(--secondary);">Visualiza el contenido actual del localStorage de esta app.</p>
+            <div style="display:flex;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;">
+                <button class="btn-primary btn-sm" id="btn-refrescar-inspector">🔍 Actualizar Inspector</button>
+            </div>
+            <div id="storage-info" class="stats-bar" style="margin-bottom:1rem;"></div>
+            <div id="log" style="max-height:300px;overflow-y:auto;background:rgba(56,36,124,0.02);border:1px solid var(--border);border-radius:8px;padding:1rem;font-family:'Courier New',monospace;font-size:0.85rem;"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>IEEE UPS — Práctica 7: Web Storage 2026</p>
+        <p class="shortcut-hint">Presiona <kbd>F12</kbd> → Application → Local Storage para inspeccionar los datos</p>
+    </footer>
+
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

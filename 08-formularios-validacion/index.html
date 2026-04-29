@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Práctica 8 - Formularios y Validación con JavaScript">
+    <title>Práctica 8 - Formularios y Validación</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="brand">
+                <span class="brand-icon">✦</span>
+                <span>AsyncJS</span>
+            </div>
+            <button class="btn-toggle-dark" id="toggleDark" title="Alternar modo oscuro">
+                <span class="icon-sun">☼</span>
+                <span class="icon-moon">☽</span>
+                <span class="toggle-label">Dark</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Título principal -->
+        <h1 class="page-title">Formularios y Validación</h1>
+        <p class="page-subtitle">Práctica 8 — Validación JS en tiempo real, FormData y feedback visual</p>
+
+        <!-- Sección 1: Formulario de Registro -->
+        <section class="card">
+            <h2 class="card-title">1. Formulario de Registro</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--secondary);">
+                Formulario con validación en tiempo real usando la <code>Constraint Validation API</code> y <code>FormData</code>.
+                Los campos se validan al perder foco (<code>focusout</code>) y se limpia el error al escribir (<code>input</code>).
+            </p>
+
+            <!-- Autoguardado -->
+            <div id="draft-banner" class="draft-banner" style="display:none;">
+                <span>📝 Se encontró un borrador guardado.</span>
+                <div style="display:flex;gap:0.5rem;">
+                    <button class="btn-draft" id="btn-restore-draft">Restaurar</button>
+                    <button class="btn-draft btn-draft--discard" id="btn-discard-draft">Descartar</button>
+                </div>
+            </div>
+
+            <form id="form-registro" novalidate autocomplete="off">
+
+                <!-- Nombre -->
+                <div class="form-group">
+                    <label for="nombre">Nombre completo <span class="required-mark">*</span></label>
+                    <input
+                        type="text"
+                        id="nombre"
+                        name="nombre"
+                        placeholder="Ej: Cinthya Ramón"
+                        required
+                        minlength="3"
+                        maxlength="50"
+                        autocomplete="off"
+                    >
+                    <div class="field-hint">Solo letras y espacios, mínimo 3 caracteres.</div>
+                    <div class="error-mensaje" id="error-nombre"></div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Correo electrónico <span class="required-mark">*</span></label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="ejemplo@correo.com"
+                        required
+                        autocomplete="off"
+                    >
+                    <div class="error-mensaje" id="error-email"></div>
+                </div>
+
+                <!-- Teléfono -->
+                <div class="form-group">
+                    <label for="telefono">Teléfono <span class="required-mark">*</span></label>
+                    <input
+                        type="tel"
+                        id="telefono"
+                        name="telefono"
+                        placeholder="(099) 999-9999"
+                        required
+                        autocomplete="off"
+                    >
+                    <div class="field-hint">Máscara automática: 10 dígitos Ecuador.</div>
+                    <div class="error-mensaje" id="error-telefono"></div>
+                </div>
+
+                <!-- Fecha de nacimiento -->
+                <div class="form-group">
+                    <label for="fecha_nacimiento">Fecha de nacimiento <span class="required-mark">*</span></label>
+                    <input
+                        type="date"
+                        id="fecha_nacimiento"
+                        name="fecha_nacimiento"
+                        required
+                    >
+                    <div class="field-hint">Debe ser mayor de 18 años.</div>
+                    <div class="error-mensaje" id="error-fecha_nacimiento"></div>
+                </div>
+
+                <!-- Género -->
+                <div class="form-group">
+                    <label for="genero">Género <span class="required-mark">*</span></label>
+                    <select id="genero" name="genero" required>
+                        <option value="">— Selecciona —</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="no_binario">No binario</option>
+                        <option value="prefiero_no_decir">Prefiero no decirlo</option>
+                    </select>
+                    <div class="error-mensaje" id="error-genero"></div>
+                </div>
+
+                <!-- Contraseña -->
+                <div class="form-group">
+                    <label for="password">Contraseña <span class="required-mark">*</span></label>
+                    <div class="input-password-wrap">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Mínimo 8 caracteres"
+                            required
+                            minlength="8"
+                            autocomplete="new-password"
+                        >
+                        <button type="button" class="btn-toggle-pass" id="toggle-pass" title="Mostrar/ocultar contraseña">👁</button>
+                    </div>
+                    <!-- Indicador de fuerza -->
+                    <div class="password-strength" id="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strength-fill"></div>
+                        </div>
+                        <span class="strength-label" id="strength-label">Escribe una contraseña</span>
+                    </div>
+                    <div class="field-hint">Mínimo 8 caracteres, una mayúscula, una minúscula y un número.</div>
+                    <div class="error-mensaje" id="error-password"></div>
+                </div>
+
+                <!-- Confirmar contraseña -->
+                <div class="form-group">
+                    <label for="confirmar_password">Confirmar contraseña <span class="required-mark">*</span></label>
+                    <div class="input-password-wrap">
+                        <input
+                            type="password"
+                            id="confirmar_password"
+                            name="confirmar_password"
+                            placeholder="Repite la contraseña"
+                            required
+                            autocomplete="new-password"
+                        >
+                        <button type="button" class="btn-toggle-pass" id="toggle-confirm-pass" title="Mostrar/ocultar contraseña">👁</button>
+                    </div>
+                    <div class="error-mensaje" id="error-confirmar_password"></div>
+                </div>
+
+                <!-- Términos y condiciones -->
+                <div class="form-group form-group--checkbox">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terminos" name="terminos">
+                        <span class="checkbox-custom"></span>
+                        <span>Acepto los <a href="#" class="link-terms">términos y condiciones</a> <span class="required-mark">*</span></span>
+                    </label>
+                    <div class="error-mensaje" id="error-terminos"></div>
+                </div>
+
+                <!-- Botón de envío -->
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary btn-submit" id="btn-submit" disabled>
+                        <span>Registrarse</span>
+                        <span class="btn-icon">→</span>
+                    </button>
+                    <button type="button" class="btn-secondary" id="btn-reset">
+                        <span>Limpiar</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Mensaje de éxito -->
+            <div id="exito-registro" class="exito-msg" style="display:none;">
+                <div class="exito-icon">✓</div>
+                <div>
+                    <strong>¡Registro exitoso!</strong>
+                    <p>Los datos han sido procesados correctamente. Revisa la consola (<kbd>F12</kbd>) para ver el objeto FormData.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2: Conceptos Técnicos -->
+        <section class="card">
+            <h2 class="card-title">2. Técnicas implementadas</h2>
+            <p style="margin-bottom: 1rem; color: var(--secondary);">
+                Resumen de los conceptos aplicados en esta práctica.
+            </p>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="tech-icon">🔒</div>
+                    <div>
+                        <strong>novalidate + JS</strong>
+                        <p>Validación completamente controlada por JavaScript, sin burbujas nativas del navegador.</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">⚡</div>
+                    <div>
+                        <strong>Tiempo real (focusout / input)</strong>
+                        <p>Validación al salir del campo y limpieza del error al volver a escribir.</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📋</div>
+                    <div>
+                        <strong>FormData API</strong>
+                        <p><code>Object.fromEntries(new FormData(form))</code> para obtener todos los datos como objeto.</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">💾</div>
+                    <div>
+                        <strong>Autoguardado sessionStorage</strong>
+                        <p>El borrador se guarda automáticamente y se puede restaurar al recargar la página.</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📱</div>
+                    <div>
+                        <strong>Máscara de teléfono</strong>
+                        <p>Formato <code>(099) 999-9999</code> aplicado visualmente mientras el usuario escribe.</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🔑</div>
+                    <div>
+                        <strong>Fuerza de contraseña</strong>
+                        <p>Indicador visual con 4 niveles: Débil, Regular, Buena y Fuerte.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 3: Log de Operaciones -->
+        <section class="card">
+            <h2 class="card-title">Log de Operaciones</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--secondary);">
+                Registro de todas las validaciones y eventos del formulario.
+            </p>
+            <div id="log" class="task-list" style="max-height: 350px; overflow-y: auto;"></div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>IEEE UPS — Práctica de Formularios y Validación 2026</p>
+        <p class="shortcut-hint">Presiona <kbd>F12</kbd> para ver logs detallados en la consola</p>
+    </footer>
+
+    <script src="js/validacion.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
